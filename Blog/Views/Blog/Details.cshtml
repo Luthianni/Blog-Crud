@@ -1,0 +1,55 @@
+﻿@model Blog.DTO.BlogDTO
+
+<div class="group">
+    <a style="font-size: 1em; color: #0366d6; cursor: pointer;" id="Likes" data-blogcurtida="@Model.BlogId">
+        <i class="fa fa-thumbs-o-up fa-2x" aria-hidden="true">@Model.Likes</i>
+    </a>
+    <a style="font-size: 1em; color: #0366d6; cursor: pointer;" data-blogcurtida="@Model.BlogId" id="Dislikes">
+        <i type="button" class="fa fa-thumbs-o-down fa-2x" aria-hidden="true">@Model.Dislikes</i>
+    </a>
+</div>
+<div class="card mb-3" style="max-width: 540px;">
+    <img src="data:image/gif;base64,@Convert.ToBase64String(Model.Imagem)" class="card-img-top" alt="...">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Titulo</h5>
+        <p class="card-text">@Html.Raw(Model.Texto)</p>
+        <p class="card-text"><small class="text-muted">@Model.DataCriacao</small></p>
+    </div>
+</div>
+
+
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script>
+    $('#Likes').on('click', function () {
+
+        var blog = $(this).data('blogcurtida');
+
+        $.ajax({
+            method: 'Post',
+            url: '/Blog/LikeBlog',
+            data: { blogId: blog }
+        }).then(function (response) {
+            if (response.success) {
+                $('#Likes i').text(response.like);
+                $('#Dislikes i').text(response.dislikes);
+            }
+        })
+    });
+
+    $('#Dislikes').on('click', function () {
+
+        var blog = $(this).data('blogcurtida');
+        
+        $.ajax({
+            method: 'Post',
+            url: '/Blog/DislikeBlog',
+            data: { blogId: blog }
+        }).then(function (response) {
+            if (response.success) {
+                $('#Likes i').text(response.like);
+                $('#Dislikes i').text(response.dislikes);
+            }
+        })
+    });
+</script>
+

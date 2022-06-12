@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Blog.DTO.BlogDTO>
+
+
+
+@foreach (var item in Model)
+{
+    <div class="card mb-3" style="max-width: 600px;">
+        <div class="row g-0">
+            <div class="card-header">
+                <img src="data:image/gif;base64,@Convert.ToBase64String(item.Imagem)" class="img-circle" alt="..." width="20" height="20">
+                @item.Autor
+
+            </div>
+            <div class="col-md-4">
+                <img src="data:image/gif;base64,@Convert.ToBase64String(item.Imagem)" class="img-thumbnail" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-text">
+                    <a class="btn" asp-action="Details" asp-route-id="@item.BlogId">
+                        <h5 class="card-title">@item.Titulo</h5>
+                        <h5 class="card-title">
+                            @item.Subtitulo
+                            @{ if (item.Subtitulo.Length > 128)
+                                {
+                                    item.Subtitulo = item.Subtitulo.Substring(1, 128);
+
+
+
+                                    item.Subtitulo = String.Concat(item.Subtitulo) + " ... ";
+
+
+
+                                    @item.Subtitulo;
+                                }
+                                else
+                                {
+                                    @item.Subtitulo }
+                            }
+                        </h5>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            @item.DataCriacao
+        </div>
+    </div>
+}

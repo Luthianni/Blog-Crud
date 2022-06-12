@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Blog.DTO.BlogDTO>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Autor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Titulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subtitulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataCriacao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Texto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Imagem)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Autor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titulo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subtitulo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataCriacao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Texto)
+            </td>
+            @if (item.Imagem != null)
+            {
+                <td>
+                    @{
+                        var base64 = Convert.ToBase64String(item.Imagem);
+                        var imgSrc = String.Format("data:image/;base64,{0}", base64);
+                    }
+                    <img src='@imgSrc' style="max-width:100px; max-height:100px;" />
+                </td>
+            }
+            <td>
+                <div class="btn-group">
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.BlogId">Editar</a>
+                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.BlogId">Detalhes</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.BlogId">Apagar</a>
+                </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
